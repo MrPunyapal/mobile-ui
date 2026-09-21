@@ -71,3 +71,22 @@ it('exposes transparent on the fluent builder', function () {
 
     expect($opaque->toArray(new CallbackRegistry)['props']['transparent'])->toBeFalse();
 });
+
+
+it('serializes the end reached threshold from attributes', function () {
+    $tree = collectList(['end-reached-threshold' => 5]);
+
+    expect($tree['props']['end_reached_threshold'])->toBe(5);
+});
+
+it('accepts the end reached threshold on the fluent builder', function () {
+    $list = NativeList::make()->endReachedThreshold(5);
+
+    expect($list->toArray(new CallbackRegistry)['props']['end_reached_threshold'])->toBe(5);
+});
+
+it('clamps a negative end reached threshold to zero', function () {
+    $list = NativeList::make()->endReachedThreshold(-1);
+
+    expect($list->toArray(new CallbackRegistry)['props']['end_reached_threshold'])->toBe(0);
+});
