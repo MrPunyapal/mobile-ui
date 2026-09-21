@@ -72,7 +72,7 @@ object ListRenderer {
                     val info = scrollState.layoutInfo
                     val lastVisible = info.visibleItemsInfo.lastOrNull()?.index ?: 0
                     val total = info.totalItemsCount
-                    total > 0 && lastVisible >= total - endReachedThreshold
+                    total > 0 && lastVisible >= total - endReachedBuffer
                 }.collect { nearEnd ->
                     if (nearEnd && !endReachedFired.value) {
                         endReachedFired.value = true
