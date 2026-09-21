@@ -69,7 +69,7 @@ struct NativeUIListRenderer: View {
                                 rowView(row, separator: separator, isLastInSection: index == child.children.count - 1)
                                     .onAppear {
                                         fireEndReached(rowId: row.id, leafIndex: leafIndex,
-                                                       leafCount: leafCount, threshold: endReachedThreshold,
+                                                       leafCount: leafCount, buffer: endReachedBuffer,
                                                        cb: onEndReachedCb, nodeId: nodeId)
                                     }
                             }
