@@ -34,7 +34,7 @@ struct NativeUIListRenderer: View {
         let separator = node.props.getBool("separator")
         let onRefreshCb = node.props.getCallbackId("on_refresh")
         let onEndReachedCb = node.props.getCallbackId("on_end_reached")
-        let endReachedThreshold = max(0, node.props.getInt("end_reached_threshold", default: 3))
+        let endReachedBuffer = max(1, node.props.getInt("end_reached_buffer", default: 3))
         let nodeId = node.id
         let children = node.children
 
@@ -155,9 +155,9 @@ struct NativeUIListRenderer: View {
     /// Fire the end-reached callback when a row within the configured number
     /// of leaf rows appears. Works across sections via the precomputed leaf index.
     private func fireEndReached(rowId: Int, leafIndex: [Int: Int], leafCount: Int,
-                                threshold: Int, cb: Int, nodeId: Int) {
+                                buffer: Int, cb: Int, nodeId: Int) {
         guard cb != 0, let gi = leafIndex[rowId] else { return }
-        if gi >= leafCount - threshold {
+        if gi >= leafCount - buffer {
             NativeElementBridge.sendPressEvent(cb, nodeId: nodeId)
         }
     }
