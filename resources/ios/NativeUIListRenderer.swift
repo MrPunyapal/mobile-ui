@@ -34,6 +34,7 @@ struct NativeUIListRenderer: View {
         let separator = node.props.getBool("separator")
         let onRefreshCb = node.props.getCallbackId("on_refresh")
         let onEndReachedCb = node.props.getCallbackId("on_end_reached")
+        let endReachedThreshold = max(0, node.props.getInt("end_reached_threshold", default: 3))
         let nodeId = node.id
         let children = node.children
 
@@ -68,7 +69,8 @@ struct NativeUIListRenderer: View {
                                 rowView(row, separator: separator, isLastInSection: index == child.children.count - 1)
                                     .onAppear {
                                         fireEndReached(rowId: row.id, leafIndex: leafIndex,
-                                                       leafCount: leafCount, cb: onEndReachedCb, nodeId: nodeId)
+                                                       leafCount: leafCount, threshold: endReachedThreshold,
+                                                       cb: onEndReachedCb, nodeId: nodeId)
                                     }
                             }
                         } header: {
@@ -80,7 +82,8 @@ struct NativeUIListRenderer: View {
                         rowView(child, separator: separator)
                             .onAppear {
                                 fireEndReached(rowId: child.id, leafIndex: leafIndex,
-                                               leafCount: leafCount, cb: onEndReachedCb, nodeId: nodeId)
+                                               leafCount: leafCount, threshold: endReachedThreshold,
+                                               cb: onEndReachedCb, nodeId: nodeId)
                             }
                     }
                 }
@@ -149,11 +152,12 @@ struct NativeUIListRenderer: View {
             }
     }
 
-    /// Fire the end-reached callback when a row within the last 3 leaf rows
-    /// appears. Works across sections via the precomputed leaf index.
-    private func fireEndReached(rowId: Int, leafIndex: [Int: Int], leafCount: Int, cb: Int, nodeId: Int) {
+    /// Fire the end-reached callback when a row within the configured number
+    /// of leaf rows appears. Works across sections via the precomputed leaf index.
+    private func fireEndReached(rowId: Int, leafIndex: [Int: Int], leafCount: Int,
+                                threshold: Int, cb: Int, nodeId: Int) {
         guard cb != 0, let gi = leafIndex[rowId] else { return }
-        if gi >= leafCount - 3 {
+        if gi >= leafCount - threshold {
             NativeElementBridge.sendPressEvent(cb, nodeId: nodeId)
         }
     }
