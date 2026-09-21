@@ -88,5 +88,5 @@ it('accepts the end reached buffer on the fluent builder', function () {
 it('clamps a negative end reached buffer to one', function () {
     $list = NativeList::make()->endReachedBuffer(-1);
 
-    expect($list->toArray(new CallbackRegistry)['props']['end_reached_threshold'})->toBe(1);
+    expect($list->toArray(new CallbackRegistry)['props']['end_reached_buffer'])->toBe(1);
 });
