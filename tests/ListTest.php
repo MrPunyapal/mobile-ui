@@ -73,20 +73,20 @@ it('exposes transparent on the fluent builder', function () {
 });
 
 
-it('serializes the end reached threshold from attributes', function () {
-    $tree = collectList(['end-reached-threshold' => 5]);
+it('serializes the end reached buffer from attributes', function () {
+    $tree = collectList(['end-reached-buffer' => 5]);
 
-    expect($tree['props']['end_reached_threshold'])->toBe(5);
+    expect($tree['props']['end_reached_buffer'])->toBe(5);
 });
 
-it('accepts the end reached threshold on the fluent builder', function () {
-    $list = NativeList::make()->endReachedThreshold(5);
+it('accepts the end reached buffer on the fluent builder', function () {
+    $list = NativeList::make()->endReachedBuffer(5);
 
-    expect($list->toArray(new CallbackRegistry)['props']['end_reached_threshold'])->toBe(5);
+    expect($list->toArray(new CallbackRegistry)['props']['end_reached_buffer'])->toBe(5);
 });
 
-it('clamps a negative end reached threshold to zero', function () {
-    $list = NativeList::make()->endReachedThreshold(-1);
+it('clamps a negative end reached buffer to one', function () {
+    $list = NativeList::make()->endReachedBuffer(-1);
 
-    expect($list->toArray(new CallbackRegistry)['props']['end_reached_threshold'])->toBe(0);
+    expect($list->toArray(new CallbackRegistry)['props']['end_reached_threshold'})->toBe(1);
 });
