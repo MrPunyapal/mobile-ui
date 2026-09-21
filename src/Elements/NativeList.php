@@ -46,6 +46,9 @@ class NativeList extends Element
         if (isset($attrs['on-end-reached']) || isset($attrs['onEndReached'])) {
             $this->onEndReached($attrs['on-end-reached'] ?? $attrs['onEndReached']);
         }
+        if (isset($attrs['end-reached-threshold']) || isset($attrs['endReachedThreshold'])) {
+            $this->endReachedThreshold((int) ($attrs['end-reached-threshold'] ?? $attrs['endReachedThreshold']));
+        }
 
         $this->applyA11yAttributes($attrs);
     }
