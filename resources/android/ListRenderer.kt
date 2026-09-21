@@ -59,7 +59,7 @@ object ListRenderer {
         val separator = node.props.getBool("separator")
         val onRefreshCb = node.props.getCallbackId("on_refresh")
         val onEndReachedCb = node.props.getCallbackId("on_end_reached")
-        val endReachedThreshold = node.props.getInt("end_reached_threshold", 3).coerceAtLeast(0)
+        val endReachedBuffer = node.props.getInt("end_reached_buffer", 3).coerceAtLeast(1)
 
         val scrollState = rememberLazyListState()
         val isRefreshing = remember { mutableStateOf(false) }
