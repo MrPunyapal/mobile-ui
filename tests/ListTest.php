@@ -72,7 +72,6 @@ it('exposes transparent on the fluent builder', function () {
     expect($opaque->toArray(new CallbackRegistry)['props']['transparent'])->toBeFalse();
 });
 
-
 it('serializes the end reached buffer from attributes', function () {
     $tree = collectList(['end-reached-buffer' => 5]);
 
